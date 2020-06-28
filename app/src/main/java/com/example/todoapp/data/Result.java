@@ -5,6 +5,8 @@ package com.example.todoapp.data;
  */
 public class Result<T> {
     // hide the private constructor to limit subclass types (Success, Error)
+    private String errorMessage = "";
+
     private Result() {
     }
 
@@ -18,6 +20,14 @@ public class Result<T> {
             return "Error[exception=" + error.getError().toString() + "]";
         }
         return "";
+    }
+
+    public void setErrorMessage(String errorParam) {
+        this.errorMessage = errorParam;
+    }
+
+    public String getErrorMessage() {
+        return this.errorMessage;
     }
 
     // Success sub-class

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import android.content.Intent;
 import android.util.Log;
 import android.util.Patterns;
+import android.widget.Toast;
 
 import com.example.todoapp.data.DBHelper;
 import com.example.todoapp.data.LoginRepository;
@@ -34,17 +35,17 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public boolean login(String username, String password) {
+    public String login(String username, String password) {
         // can be launched in a separate asynchronous job
         Result<LoggedInUser> result = loginRepository.login(username, password);
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
             loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-            return true;
+            return "";
         } else {
-            loginResult.setValue(new LoginResult(R.string.user_exists));
-            return false;
+            // loginResult.setValue(new LoginResult(R.string.user_exists));
+            return result.getErrorMessage();
         }
     }
 

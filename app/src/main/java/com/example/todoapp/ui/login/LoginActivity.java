@@ -129,12 +129,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                Boolean loggedIn = loginViewModel.login(usernameEditText.getText().toString(),
+                String errorMessage = loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-                if(loggedIn) {
+                if(errorMessage.equals("")) {
                     goToTodoActivity();
                 } else {
-
+                    loadingProgressBar.setVisibility(View.GONE);
+                    Toast.makeText(v.getContext(), errorMessage,
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

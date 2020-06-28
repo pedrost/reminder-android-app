@@ -70,13 +70,17 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("users", null, value);
     }
 
-    public Boolean findUserByEmail(String emailParam) {
+    public LoggedInUser findUserByEmail(String emailParam) {
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email = '" + emailParam + "'", null);
         if(cursor.moveToFirst()) {
-            return true;
+            String password = cursor.getString(cursor.getColumnIndex("password"));
+            String email = cursor.getString(cursor.getColumnIndex("email"));
+            String userId = cursor.getString(cursor.getColumnIndex("userId"));
+            String displayName = cursor.getString(cursor.getColumnIndex("displayName"));
+            return new LoggedInUser(userId, displayName, email, password);
         } else {
-            return false;
+            return new LoggedInUser("", "", "", "");
         }
     }
 }

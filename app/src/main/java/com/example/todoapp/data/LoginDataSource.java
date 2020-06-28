@@ -19,10 +19,10 @@ public class LoginDataSource {
     public Result<LoggedInUser> login(String email, String password) {
         try {
 
-            if(dbHelper.findUserByEmail(email)) {
-                return new Result.Error(new Exception("Usuario ja existe"));
-            } else {
+            LoggedInUser user = dbHelper.findUserByEmail(email);
 
+            // If not find any user, create one
+            if(user.getPassword().equals("")) {
                 LoggedInUser newUser =
                         new LoggedInUser(
                                 java.util.UUID.randomUUID().toString(),
@@ -32,9 +32,20 @@ public class LoginDataSource {
                         );
                 dbHelper.insertUser(newUser);
                 return new Result.Success<>(newUser);
+            } else {
+                // If finds a user, compare the password
+                if(user.getPassword().equals(password)) {
+                    return new Result.Success<>(user);
+                } else {
+                    Result result = new Result.Error(new Exception("Erro ao logar"));
+                    result.setErrorMessage("Senha incorreta");
+                    return result;
+                }
             }
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            Result result = new Result.Error(new IOException("Erro ao logar", e));
+            result.setErrorMessage("Erro ao logar");
+            return result;
         }
     }
 

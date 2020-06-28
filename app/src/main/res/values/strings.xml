@@ -10,4 +10,5 @@
     <string name="invalid_password">Senha deve conter mais de 5 caracteres</string>
     <string name="login_failed">"Falha no login"</string>
     <string name="user_exists">"Usuario ja existe"</string>
+    <string name="criar">Criar</string>
 </resources>
