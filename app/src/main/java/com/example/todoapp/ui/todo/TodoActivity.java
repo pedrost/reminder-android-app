@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.todoapp.R;
 import com.example.todoapp.data.DBHelper;
+import com.example.todoapp.data.model.CurrentUser;
+import com.example.todoapp.data.model.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,14 @@ public class TodoActivity extends AppCompatActivity {
         listView = findViewById(R.id.todoList);
         listView.setAdapter(arrayAdapter);
 
+        Cursor cursor = dbHelper.getAllTodosFromUser(CurrentUser.getInstance().getUserId());
+        if (cursor.moveToFirst()) {
+            do {
+                String nomeTodo = cursor.getString(cursor.getColumnIndex("todoName"));
+                toDoList.add(nomeTodo);
+            } while (cursor.moveToNext()) ;
+        }
+
         listView.setOnItemClickListener(new OnItemClickListener()
         {
             @Override
@@ -61,6 +71,8 @@ public class TodoActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Log.println(Log.ERROR, "Deleting todo", toDoList.get(position).toString());
+                        dbHelper.deleteTodoByName(toDoList.get(position).toString());
                         toDoList.remove(position);
                         arrayAdapter.notifyDataSetChanged();
                     }
@@ -71,7 +83,10 @@ public class TodoActivity extends AppCompatActivity {
     }
 
     public void createTodo(View view) {
-        Log.println(Log.ERROR, "criar", "tentando criar");
+        dbHelper.insertTodo(new Todo(
+                CurrentUser.getInstance().getUserId(),
+                todoInputName.getText().toString()
+        ));
         toDoList.add(todoInputName.getText().toString());
         arrayAdapter.notifyDataSetChanged();
         todoInputName.setText("");

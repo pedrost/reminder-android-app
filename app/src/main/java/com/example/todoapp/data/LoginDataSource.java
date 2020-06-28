@@ -1,5 +1,6 @@
 package com.example.todoapp.data;
 
+import com.example.todoapp.data.model.CurrentUser;
 import com.example.todoapp.data.model.LoggedInUser;
 
 import java.io.IOException;
@@ -30,11 +31,13 @@ public class LoginDataSource {
                                 email,
                                 password
                         );
+                CurrentUser.getInstance().setUserId(newUser.getUserId());
                 dbHelper.insertUser(newUser);
                 return new Result.Success<>(newUser);
             } else {
                 // If finds a user, compare the password
                 if(user.getPassword().equals(password)) {
+                    CurrentUser.getInstance().setUserId(user.getUserId());
                     return new Result.Success<>(user);
                 } else {
                     Result result = new Result.Error(new Exception("Erro ao logar"));

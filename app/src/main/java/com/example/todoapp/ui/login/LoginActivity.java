@@ -48,14 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-        Cursor cursor = helper.getAllUsers();
-        final TextView textView = findViewById(R.id.allUsersFromDbb);
-        if(cursor.moveToFirst()) {
-            do {
-                textView.append("Email: " + cursor.getString(cursor.getColumnIndex("email")));
-            } while (cursor.moveToNext());
-        }
-
         loginViewModel.setDBHelper(helper);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {

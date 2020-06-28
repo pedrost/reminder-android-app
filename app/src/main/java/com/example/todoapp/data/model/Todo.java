@@ -5,22 +5,22 @@ package com.example.todoapp.data.model;
  */
 public class Todo {
 
-    private int todoId;
-    private int userId;
+    private String todoId;
+    private String userId;
     private String name;
     private Boolean done;
 
-    public Todo(int userId, String name) {
+    public Todo(String userId, String name) {
         this.userId = userId;
         this.name = name;
         this.done = false;
     }
 
-    public int getTodoId() {
+    public String getTodoId() {
         return todoId;
     }
 
-    public int getUserId() { return userId; }
+    public String getUserId() { return userId; }
 
     public String getName() {
         return name;

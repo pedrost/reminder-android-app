@@ -33,6 +33,8 @@
             android:layout_height="wrap_content"
             android:onClick="createTodo"
             android:text="@string/criar"
+            android:background="#e262f8"
+            android:textColor="#ffffff"
             android:visibility="visible" />
 
     </LinearLayout>

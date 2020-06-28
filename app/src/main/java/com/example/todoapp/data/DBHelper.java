@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.todoapp.data.model.LoggedInUser;
+import com.example.todoapp.data.model.Todo;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -60,6 +61,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor getAllTodosFromUser(String userId) {
+        db = this.getReadableDatabase();
+        Cursor a = db.rawQuery("SELECT * FROM todos WHERE userId = '" + userId + "'", null);
+        return a;
+    }
+
     public void insertUser(LoggedInUser user) {
         db = this.getWritableDatabase();
         ContentValues value = new ContentValues();
@@ -68,6 +75,16 @@ public class DBHelper extends SQLiteOpenHelper {
         value.put("displayName", user.getDisplayName());
         Log.println(Log.ERROR, "PUTTING USER IN DB", "PUTTING USER IN DB");
         db.insert("users", null, value);
+    }
+
+    public void insertTodo(Todo todo) {
+        db = this.getWritableDatabase();
+        ContentValues value = new ContentValues();
+        value.put("userId", todo.getUserId());
+        value.put("todoName", todo.getName());
+        value.put("done", todo.getDone());
+        Log.println(Log.ERROR, "PUTTING TODO IN DB", "PUTTING TODO IN DB");
+        db.insert("todos", null, value);
     }
 
     public LoggedInUser findUserByEmail(String emailParam) {
@@ -82,5 +99,12 @@ public class DBHelper extends SQLiteOpenHelper {
         } else {
             return new LoggedInUser("", "", "", "");
         }
+    }
+
+    public void deleteTodoByName(String name) {
+        db = this.getReadableDatabase();
+        String rawquery = "DELETE FROM todos WHERE todoName = '" + name + "'";
+        db.execSQL(rawquery);
+        Log.println(Log.ERROR, "Deleting todo", rawquery);
     }
 }
