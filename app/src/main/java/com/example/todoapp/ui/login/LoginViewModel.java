@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import android.content.Intent;
+import android.util.Log;
 import android.util.Patterns;
 
 import com.example.todoapp.data.DBHelper;
@@ -42,7 +43,7 @@ public class LoginViewModel extends ViewModel {
             loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
             return true;
         } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
+            loginResult.setValue(new LoginResult(R.string.user_exists));
             return false;
         }
     }

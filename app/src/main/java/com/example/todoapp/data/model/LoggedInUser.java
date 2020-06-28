@@ -21,6 +21,14 @@ public class LoggedInUser {
         return userId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public String getDisplayName() {
         return displayName;
     }

@@ -6,12 +6,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -32,11 +34,11 @@ import com.example.todoapp.ui.todo.TodoActivity;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
-
+    private DBHelper helper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DBHelper helper = new DBHelper(this);
+        helper = new DBHelper(this);
         setContentView(R.layout.activity_login);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
@@ -45,6 +47,14 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
+        Cursor cursor = helper.getAllUsers();
+        final TextView textView = findViewById(R.id.allUsersFromDbb);
+        if(cursor.moveToFirst()) {
+            do {
+                textView.append("Email: " + cursor.getString(cursor.getColumnIndex("email")));
+            } while (cursor.moveToNext());
+        }
 
         loginViewModel.setDBHelper(helper);
 
@@ -123,6 +133,8 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
                 if(loggedIn) {
                     goToTodoActivity();
+                } else {
+
                 }
             }
         });

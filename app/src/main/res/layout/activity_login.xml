@@ -75,4 +75,14 @@
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/allUsersFromDbb"
+        android:layout_width="238dp"
+        android:layout_height="194dp"
+        android:text="usuarios"
+        android:visibility="visible"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="237dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
