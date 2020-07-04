@@ -1,5 +1,7 @@
 package com.example.todoapp.ui.todo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,8 +34,8 @@ public class TodoActivity extends AppCompatActivity {
     private List<String> toDoList;
     private ArrayAdapter<String> arrayAdapter;
     private ListView listView;
-    private EditText todoInputName;
     private SparseBooleanArray sparseBooleanArray;
+    private Context context;
 
 
     public TodoActivity() {
@@ -43,8 +45,7 @@ public class TodoActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
-
-         todoInputName = findViewById(R.id.todoNameInput);
+        context = this;
 
         if(dbHelper == null) {
             dbHelper = new DBHelper(this);
@@ -82,14 +83,10 @@ public class TodoActivity extends AppCompatActivity {
 
     }
 
-    public void createTodo(View view) {
-        dbHelper.insertTodo(new Todo(
-                CurrentUser.getInstance().getUserId(),
-                todoInputName.getText().toString()
-        ));
-        toDoList.add(todoInputName.getText().toString());
-        arrayAdapter.notifyDataSetChanged();
-        todoInputName.setText("");
+
+    public void goToTodoForm(View view) {
+        Intent intent = new Intent(context, TodoForm.class);
+        startActivity(intent);
     }
 
 }

@@ -19,21 +19,13 @@
         tools:ignore="MissingConstraints"
         tools:visibility="visible">
 
-        <EditText
-            android:id="@+id/todoNameInput"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Tarefa"
-            android:inputType="textPersonName" />
-
         <Button
             android:id="@+id/createTodoButton"
-            android:layout_width="wrap_content"
+            android:layout_width="390dp"
             android:layout_height="wrap_content"
-            android:onClick="createTodo"
+            android:background="#3F51B5"
+            android:onClick="goToTodoForm"
             android:text="@string/criar"
-            android:background="#e262f8"
             android:textColor="#ffffff"
             android:visibility="visible" />
 
