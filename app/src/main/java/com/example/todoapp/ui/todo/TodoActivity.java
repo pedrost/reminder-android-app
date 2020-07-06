@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +26,7 @@ import com.example.todoapp.R;
 import com.example.todoapp.data.DBHelper;
 import com.example.todoapp.data.model.CurrentUser;
 import com.example.todoapp.data.model.Todo;
+import com.example.todoapp.ui.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,9 +86,37 @@ public class TodoActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.goToProfileButton) {
+
+            return true;
+        }
+
+        if(id == R.id.logoutButton) {
+            goToLogin();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void goToTodoForm(View view) {
         Intent intent = new Intent(context, TodoForm.class);
+        startActivity(intent);
+    }
+
+    public void goToLogin() {
+        Intent intent = new Intent(context, LoginActivity.class);
         startActivity(intent);
     }
 
