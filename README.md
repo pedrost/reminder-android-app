@@ -17,4 +17,4 @@ Só existe um tipo de usuário, onde o usuário pode criar e deletar lembretes a
 
 ### GIF de demonstração do app
 
-![](https://i.imgur.com/06m4BYZ.gifv)
+![demo-app](https://i.imgur.com/06m4BYZ.gif)
