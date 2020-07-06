@@ -13,7 +13,7 @@ import com.example.todoapp.data.model.Todo;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "TodoApp1";
+    private static final String DATABASE_NAME = "TodoApp1v1";
     private static final String USERS_TABLE_NAME = "users";
     private static final String TODOS_TABLE_NAME = "todos";
 
@@ -28,7 +28,9 @@ public class DBHelper extends SQLiteOpenHelper {
             "todoId integer primary key not null, " +
             "userId integer not null," +
             "todoName text not null," +
-            "done boolean not null," +
+            "done boolean," +
+            "todoHour text," +
+            "todoDate text," +
             "FOREIGN KEY (userId) REFERENCES " + USERS_TABLE_NAME + " (userId) )";
 
     SQLiteDatabase db = null;
@@ -83,6 +85,8 @@ public class DBHelper extends SQLiteOpenHelper {
         value.put("userId", todo.getUserId());
         value.put("todoName", todo.getName());
         value.put("done", todo.getDone());
+        value.put("todoDate", todo.getDate());
+        value.put("todoHour", todo.getHour());
         Log.println(Log.ERROR, "PUTTING TODO IN DB", "PUTTING TODO IN DB");
         db.insert("todos", null, value);
     }
