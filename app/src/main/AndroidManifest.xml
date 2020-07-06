@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.todoapp">
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -30,6 +31,7 @@
         <activity
             android:name=".ui.todo.TodoForm"
             android:parentActivityName=".ui.todo.TodoActivity"
+            android:taskAffinity=".ui.todo.TodoForm"
             android:label="Criar lembrete">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

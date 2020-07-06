@@ -1,13 +1,17 @@
 package com.example.todoapp.ui.todo;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -17,6 +21,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.todoapp.R;
 import com.example.todoapp.data.DBHelper;
@@ -39,6 +44,7 @@ public class TodoForm extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener setListener;
     private ProgressBar loadingProgressBar;
     private Context context;
+    private  Calendar calendarHourGlobal = Calendar.getInstance();
     private int hourSet;
     private int daySet;
     private int monthSet;
@@ -90,6 +96,7 @@ public class TodoForm extends AppCompatActivity {
                                 minuteSet = minute;
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.set(0, 0, 0, hourSet, minuteSet);
+                                calendarHourGlobal.set(0, 0, 0, hourSet, minuteSet);
                                 SimpleDateFormat formatShort = new SimpleDateFormat("hh:mm aa", Locale.US);
                                 String parsedHour = formatShort.format(calendar.getTime());
                                 todoInputHour.setText(parsedHour);
@@ -107,9 +114,9 @@ public class TodoForm extends AppCompatActivity {
         setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String date = dayOfMonth + "/" + month + "/" + year;
+                String date = dayOfMonth + "/" + (month+1) + "/" + year;
                 daySet = dayOfMonth;
-                monthSet = month;
+                monthSet = (month+1);
                 yearSet = year;
                 todoInputDate.setText(date);
             }
@@ -118,14 +125,18 @@ public class TodoForm extends AppCompatActivity {
     }
 
     public void createTodo(View view) {
+        Boolean createAlarm = false;
         try {
-            Date currentDate = Calendar.getInstance().getTime();
+            Calendar currentDate = Calendar.getInstance();
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(yearSet, monthSet, daySet, hourSet, minuteSet);
 
             Date inputDate = calendar.getTime();
-            if(inputDate.before(currentDate)) {
+            if(calendar.get(Calendar.DATE) == currentDate.get(Calendar.DATE)) {
+                createAlarm = true;
+            }
+            if(inputDate.before(currentDate.getTime())) {
                 Toast.makeText(getApplicationContext(), "Data não pode ser anterior a hoje", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -143,6 +154,23 @@ public class TodoForm extends AppCompatActivity {
                 todoInputDate.getText().toString(),
                 todoInputHour.getText().toString()
         ));
+
+        if(createAlarm) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+
+            new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        Intent intentAlarm = new Intent(AlarmClock.ACTION_SET_ALARM);
+                        intentAlarm.putExtra(AlarmClock.EXTRA_MESSAGE, todoInputName.getText().toString());
+                        intentAlarm.putExtra(AlarmClock.ALARM_SEARCH_MODE_LABEL, todoInputName.getText().toString());
+                        intentAlarm.putExtra(AlarmClock.EXTRA_HOUR, hourSet);
+                        intentAlarm.putExtra(AlarmClock.EXTRA_MINUTES, minuteSet);
+                        startActivity(intentAlarm);
+                    }
+                }, 4000);
+        }
+
         new android.os.Handler().postDelayed(
             new Runnable() {
                 public void run() {
