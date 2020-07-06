@@ -125,10 +125,7 @@ public class TodoForm extends AppCompatActivity {
             calendar.set(yearSet, monthSet, daySet, hourSet, minuteSet);
 
             Date inputDate = calendar.getTime();
-            Log.e("DATE", "Date Parsing Exception: " + inputDate.toString() );
-
             if(inputDate.before(currentDate)) {
-                Log.e("DATE", "ENTREI");
                 Toast.makeText(getApplicationContext(), "Data não pode ser anterior a hoje", Toast.LENGTH_SHORT).show();
                 return;
             }

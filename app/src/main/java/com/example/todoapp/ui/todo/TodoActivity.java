@@ -63,7 +63,9 @@ public class TodoActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             do {
                 String nomeTodo = cursor.getString(cursor.getColumnIndex("todoName"));
-                toDoList.add(nomeTodo);
+                String dataTodo = cursor.getString(cursor.getColumnIndex("todoDate"));
+                String horaTodo = cursor.getString(cursor.getColumnIndex("todoHour"));
+                toDoList.add(nomeTodo + " " + dataTodo + " " + horaTodo);
             } while (cursor.moveToNext()) ;
         }
 
