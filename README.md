@@ -31,8 +31,8 @@ Só existe um tipo de usuário, onde o usuário pode criar e deletar lembretes a
 
 ## Implementações futuras  
 
-1 - Suporte ao perfil do usuário  
+1 - Suporte a importacao de alarmes via API
 2 - Integração com confirmação de e-mail e recuperar senha  
-3 - API remota para guardar e criptografar dados  
+3 - API remota para guardar dados (alarmes, usuarios)
 4 - Criar alarme para qualquer data
 5 - Alarmes devem ser opicionais e customizaveis (sons, etc)
