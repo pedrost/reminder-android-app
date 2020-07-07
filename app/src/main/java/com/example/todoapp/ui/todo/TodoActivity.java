@@ -27,6 +27,7 @@ import com.example.todoapp.data.DBHelper;
 import com.example.todoapp.data.model.CurrentUser;
 import com.example.todoapp.data.model.Todo;
 import com.example.todoapp.ui.login.LoginActivity;
+import com.example.todoapp.ui.profile.ProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,8 @@ public class TodoActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Log.println(Log.ERROR, "Deleting todo", toDoList.get(position).toString());
-                        dbHelper.deleteTodoByName(toDoList.get(position).toString());
+                        String[] separated = toDoList.get(position).split(" ");
+                        dbHelper.deleteTodoByName(separated[0]);
                         toDoList.remove(position);
                         arrayAdapter.notifyDataSetChanged();
                     }
@@ -99,7 +101,7 @@ public class TodoActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.goToProfileButton) {
-
+            goToProfile();
             return true;
         }
 
@@ -119,6 +121,11 @@ public class TodoActivity extends AppCompatActivity {
 
     public void goToLogin() {
         Intent intent = new Intent(context, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToProfile() {
+        Intent intent = new Intent(context, ProfileActivity.class);
         startActivity(intent);
     }
 

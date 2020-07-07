@@ -77,8 +77,9 @@ public class LoginDataSource {
                                 email,
                                 password
                         );
-                CurrentUser.getInstance().setUserId(newUser.getUserId());
+
                 dbHelper.insertUser(newUser);
+                CurrentUser.getInstance().setUserId(newUser.getUserId());
                 return new Result.Success<>(newUser);
             } else {
                 // If finds a user, compare the password
@@ -99,7 +100,9 @@ public class LoginDataSource {
         }
     }
 
-    public void logout() {
-        // TODO: revoke authentication
+    public void encriptionTest() throws InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidParameterSpecException, InvalidAlgorithmParameterException {
+        SecretKey secret = generateKey("mypasword");
+        byte[] encript = encryptMsg("teste", secret);
+        String decripted = decryptMsg(encript, secret);
     }
 }

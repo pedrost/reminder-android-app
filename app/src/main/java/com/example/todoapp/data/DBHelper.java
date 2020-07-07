@@ -63,10 +63,27 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor getUserById(String userId) {
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE userId = '" + userId + "'", null);
+        return cursor;
+    }
+
     public Cursor getAllTodosFromUser(String userId) {
         db = this.getReadableDatabase();
         Cursor a = db.rawQuery("SELECT * FROM todos WHERE userId = '" + userId + "'", null);
         return a;
+    }
+
+    public void updateUserProfilePicLink(String userId, String avatarLink) {
+        db = this.getReadableDatabase();
+        try {
+            String query = "UPDATE users SET avatar = '" + avatarLink + "' WHERE userId = '" + userId + "'";
+            Log.e("QUERY", "UPDATE PROFILE PIC query -> " + query);
+            db.execSQL(query);
+        } catch(Exception erro) {
+            Log.e("ERRO!", "Erro ao gravar no " + "banco " + erro.getMessage(), erro);
+        }
     }
 
     public void insertUser(LoggedInUser user) {
@@ -75,7 +92,7 @@ public class DBHelper extends SQLiteOpenHelper {
         value.put("email", user.getEmail());
         value.put("password", user.getPassword());
         value.put("displayName", user.getDisplayName());
-        Log.println(Log.ERROR, "PUTTING USER IN DB", "PUTTING USER IN DB");
+        Log.println(Log.ERROR, "PUTTING USER IN DB", "PUTTING USER IN DB ID " + user.getUserId());
         db.insert("users", null, value);
     }
 
